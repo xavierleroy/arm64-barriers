@@ -1,7 +1,13 @@
+#ifdef __APPLE__
+#define G(x) _##x
+#else
+#define G(x) x
+#endif
+
 	.text
 	.align	3
-        .global _blit_dmb
-_blit_dmb:
+        .global G(blit_dmb)
+G(blit_dmb):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
@@ -33,8 +39,8 @@ L138:
 
 	.text
 	.align	3
-        .global _blit_rel
-_blit_rel:
+        .global G(blit_rel)
+G(blit_rel):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
@@ -67,8 +73,8 @@ L538:
 
 	.text
 	.align	3
-        .global _blit_plain
-_blit_plain:
+        .global G(blit_plain)
+G(blit_plain):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
@@ -99,8 +105,8 @@ L238:
 
 	.text
 	.align	3
-        .global _blit_dmb_2
-_blit_dmb_2:
+        .global G(blit_dmb_2)
+G(blit_dmb_2):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
@@ -138,8 +144,8 @@ L338:
 
 	.text
 	.align	3
-        .global _blit_dmb_4
-_blit_dmb_4:
+        .global G(blit_dmb_4)
+G(blit_dmb_4):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
@@ -189,8 +195,8 @@ L438:
 
 	.text
 	.align	3
-        .global _blit_dmb_5
-_blit_dmb_5:
+        .global G(blit_dmb_5)
+G(blit_dmb_5):
 	.cfi_startproc
 	sub	sp, sp, #16
 	.cfi_adjust_cfa_offset	16
