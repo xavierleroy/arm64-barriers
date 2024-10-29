@@ -9,9 +9,9 @@ To measure: `sh runtest.sh`
 - `dmb4`: same, unrolled 4 times
 - `dmb5`: same, unrolled 5 times
 
-Bottom line: `dmb ishld; str` (plain store) is much slower than `dmb ishld; stlr` (release store), except if we unroll the loop with the plain store 5 times.
-
 ## Mac M1
+
+`dmb ishld; str` (plain store) is much slower than `dmb ishld; stlr` (release store), except if we unroll the loop with the plain store 5 times.
 
 ```
 Benchmark 1: ./testblit plain
@@ -47,3 +47,44 @@ Summary
    54.84 ± 13.82 times faster than ./testblit dmb4
 ```
 
+## Raspberry Pi 4
+
+All versions involving barriers are pretty bad, some worse than others.  A bit of unrolling helps.
+
+```
+Benchmark 1: ./testblit plain
+  Time (mean ± σ):     282.4 ms ±   3.4 ms    [User: 278.0 ms, System: 3.8 ms]
+  Range (min … max):   276.4 ms … 287.8 ms    10 runs
+ 
+Benchmark 2: ./testblit rel
+  Time (mean ± σ):      3.271 s ±  0.014 s    [User: 3.256 s, System: 0.008 s]
+  Range (min … max):    3.254 s …  3.293 s    10 runs
+ 
+Benchmark 3: ./testblit dmb
+  Time (mean ± σ):      2.085 s ±  0.017 s    [User: 2.076 s, System: 0.006 s]
+  Range (min … max):    2.060 s …  2.108 s    10 runs
+ 
+Benchmark 4: ./testblit dmb2
+  Time (mean ± σ):      1.211 s ±  0.039 s    [User: 1.204 s, System: 0.004 s]
+  Range (min … max):    1.153 s …  1.245 s    10 runs
+ 
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet PC without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+ 
+Benchmark 5: ./testblit dmb4
+  Time (mean ± σ):      1.227 s ±  0.040 s    [User: 1.217 s, System: 0.007 s]
+  Range (min … max):    1.175 s …  1.264 s    10 runs
+ 
+Benchmark 6: ./testblit dmb5
+  Time (mean ± σ):      1.280 s ±  0.027 s    [User: 1.274 s, System: 0.004 s]
+  Range (min … max):    1.263 s …  1.357 s    10 runs
+ 
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet PC without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+ 
+Summary
+  './testblit plain' ran
+    4.29 ± 0.15 times faster than './testblit dmb2'
+    4.34 ± 0.15 times faster than './testblit dmb4'
+    4.53 ± 0.11 times faster than './testblit dmb5'
+    7.39 ± 0.11 times faster than './testblit dmb'
+   11.58 ± 0.15 times faster than './testblit rel'
+```
