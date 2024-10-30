@@ -90,3 +90,43 @@ Summary
     7.39 ± 0.11 times faster than './testblit dmb'
    11.58 ± 0.15 times faster than './testblit rel'
 ```
+
+## Ampere eMAG
+
+cfarm185 from gcc compile farm https://portal.cfarm.net/machines/list/
+
+All versions involving barriers are slow: 10 to 13 times slower than the no-barrier code. `strl` is a bit worse.
+
+```
+Benchmark 1: ./testblit plain
+  Time (mean ± σ):     113.5 ms ±   0.2 ms    [User: 112.3 ms, System: 1.1 ms]
+  Range (min … max):   113.2 ms … 113.8 ms    25 runs
+ 
+Benchmark 2: ./testblit rel
+  Time (mean ± σ):      1.586 s ±  0.047 s    [User: 1.584 s, System: 0.002 s]
+  Range (min … max):    1.541 s …  1.631 s    10 runs
+ 
+Benchmark 3: ./testblit dmb
+  Time (mean ± σ):      1.151 s ±  0.047 s    [User: 1.150 s, System: 0.001 s]
+  Range (min … max):    1.106 s …  1.197 s    10 runs
+ 
+Benchmark 4: ./testblit dmb2
+  Time (mean ± σ):      1.151 s ±  0.047 s    [User: 1.149 s, System: 0.002 s]
+  Range (min … max):    1.106 s …  1.197 s    10 runs
+ 
+Benchmark 5: ./testblit dmb4
+  Time (mean ± σ):      1.158 s ±  0.047 s    [User: 1.156 s, System: 0.002 s]
+  Range (min … max):    1.114 s …  1.204 s    10 runs
+ 
+Benchmark 6: ./testblit dmb5
+  Time (mean ± σ):      1.159 s ±  0.047 s    [User: 1.155 s, System: 0.004 s]
+  Range (min … max):    1.114 s …  1.204 s    10 runs
+ 
+Summary
+  ./testblit plain ran
+   10.14 ± 0.42 times faster than ./testblit dmb
+   10.14 ± 0.42 times faster than ./testblit dmb2
+   10.21 ± 0.41 times faster than ./testblit dmb4
+   10.21 ± 0.42 times faster than ./testblit dmb5
+   13.97 ± 0.41 times faster than ./testblit rel
+```
