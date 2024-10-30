@@ -1,5 +1,7 @@
 # Performance issues with ARM64 barriers
 
+This is a reproduction case for strange performance issues on Apple Silicon observed with OCaml-generated ARM64 code: https://github.com/ocaml/ocaml/issues/13262
+
 To measure: `sh runtest.sh`
 
 - `plain`: normal store `str`, no barrier
@@ -11,7 +13,7 @@ To measure: `sh runtest.sh`
 
 ## Mac M1
 
-`dmb ishld; str` (plain store) is much slower than `dmb ishld; stlr` (release store), except if we unroll the loop with the plain store 5 times.
+`dmb ishld; str` (plain store) is much slower (like, 50 times slower) than `dmb ishld; stlr` (release store), except if we unroll the loop with the plain store 5 times.
 
 ```
 Benchmark 1: ./testblit plain
@@ -49,7 +51,7 @@ Summary
 
 ## Raspberry Pi 4
 
-All versions involving barriers are pretty bad, some worse than others.  A bit of unrolling helps.
+All versions involving barriers are slow: 4 to 12 times slower than the no-barrier code, but not 50 times slower either.  `str` is better than `stlr`.  A bit of unrolling helps.
 
 ```
 Benchmark 1: ./testblit plain
